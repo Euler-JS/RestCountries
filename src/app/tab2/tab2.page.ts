@@ -68,7 +68,6 @@ export class Tab2Page {
   refresh(event) {
     this.info.getAllCountries()
     setTimeout(() => {
-      console.log('Async operation has ended');
       this.auxiliar_list = [...this.info.all_Data];
       event.target.complete();
     }, 4000);

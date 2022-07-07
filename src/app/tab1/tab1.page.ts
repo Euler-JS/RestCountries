@@ -23,5 +23,11 @@ export class Tab1Page {
       item.style.display = "none";
     }
   }
+  refresh(event) {
+    this.info.getAllCountries()
+    setTimeout(() => {
+      event.target.complete();
+    }, 4000);
+  }
 
 }
