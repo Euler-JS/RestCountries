@@ -1,0 +1,7 @@
+{
+  "name": "RestCountries",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
