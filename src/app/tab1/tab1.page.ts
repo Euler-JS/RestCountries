@@ -9,7 +9,19 @@ import { InfoManagerService } from '../services/info-manager.service';
 export class Tab1Page {
 
   constructor(private info: InfoManagerService) {
-    info.getAllCountries()
+  }
+
+  view(itemId)
+  {
+    let item = <HTMLElement> document.getElementById("card_item_"+itemId);
+    if(item.style.display == "none")
+    {
+      item.style.display = "block";
+    }
+    else
+    {
+      item.style.display = "none";
+    }
   }
 
 }
