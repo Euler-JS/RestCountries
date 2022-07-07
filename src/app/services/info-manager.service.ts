@@ -5,19 +5,25 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class InfoManagerService {
-  base_url= "https://restcountries.com/v3.1/"
+  base_url= "https://restcountries.com/v2/"
+  all_Data = []
   constructor(
     private http: HttpClient,
   ) { }
-
+  //nome, capital, região, sub-região, população, área, fuso horário, nome nativo e a bandeira
   getAllCountries()
   {
-    this.http.get(this.base_url +'all').subscribe(
-      (res=>{
+    this.all_Data = []
+    this.http.get(this.base_url +'all?fields=name,capital,region,subregion,population,area,timezones,nativeName,flags')
+    .subscribe(
+      (res:[])=>{
         {
-          console.log("ALl Data from API ",res)
+          console.log(res)
+          this.all_Data = [...res];
         }
-      })
+      }
     ) 
   }
+
+
 }
