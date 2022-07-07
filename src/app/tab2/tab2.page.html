@@ -9,9 +9,13 @@
       </ion-searchbar>
       </div>
   </ion-toolbar>
+   
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
         <div class="dropdown">
           <ion-card>
           <ng-template ngFor let-infoData [ngForOf]="auxiliar_list" let-i="index">
