@@ -12,27 +12,8 @@ export class Tab2Page {
   infoData = null
 
   constructor(private info: InfoManagerService) {
-    this.auxiliar_list = [...this.info.all_Data];
-    console.log("@@ ", this.auxiliar_list);
-    
   }
-  searchCountry(event, listaAuxiliar) {
-    // let value = event.target.value;
-    // if (value && value.trim() != '') {
-    //   this.memberService.membersList = listaAuxiliar.filter((current) => {
-    //     let fullname = current.firstname + ' ' + current.lastname;
-    //     let byFullName = this.helperService.removeAccents(fullname).toLowerCase().indexOf(value.toLowerCase());
-    //     if (byFullName > -1) {
-    //       return current.firstname.toLowerCase().replace(value.toLowerCase(), value);
-    //     }
-    //   });
-    // }
-    // else {
-    //   this.filtreredMember = false;
-    //   this.memberService.membersList = this.auxiliarMemberList;
-    // }
-  }
-
+  
   ionViewDidEnter()
   {
     this.auxiliar_list = [...this.info.all_Data];
@@ -63,7 +44,12 @@ export class Tab2Page {
     this.infoData = await this.info.selectCountry(countryName)
     let item = <HTMLElement> document.getElementById("card_item_search");
     let searchBar = <HTMLInputElement> document.getElementById("searchCountry");
-    item.style.display = "none"
+    try {
+      item.style.display = "none"
+    } catch (error) {
+      console.log("Error trying to hide the card");
+    }
+    
     searchBar.value = ""
   }
   view()
@@ -77,6 +63,14 @@ export class Tab2Page {
     {
       item.style.display = "none";
     }
+  }
+
+  refresh(event) {
+    this.info.getAllCountries()
+    setTimeout(() => {
+      this.auxiliar_list = [...this.info.all_Data];
+      event.target.complete();
+    }, 4000);
   }
 
 }
