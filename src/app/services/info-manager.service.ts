@@ -19,6 +19,8 @@ export class InfoManagerService {
     .subscribe(
       (res:[])=>{
         {
+          console.log(res);
+          
           this.all_Data = [...res];
         }
       }

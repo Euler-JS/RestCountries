@@ -24,4 +24,9 @@ export class Tab3Page {
     this.generateReport.exportAsCSV(this.info.all_Data)
   }
 
+  releaseXMLReport()
+  {
+    this.generateReport.exportAsXML(this.info.all_Data)
+  }
+
 }

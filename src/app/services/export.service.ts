@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
-import csvDownload from 'json-to-csv-export'
+import csvDownload from 'json-to-csv-export';
+import * as xml_js from 'xml-js';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportService {
 
-  constructor() { }
+    
+    constructor(private sanitizer: DomSanitizer) { }
 
   static toExportFileName(excelFileName: string): string {
     return `${excelFileName}_export_${new Date().getTime()}.xlsx`;
@@ -23,4 +27,28 @@ export class ExportService {
   {
     csvDownload(data)
   }
+
+  exportAsXML(data)
+  {
+    var theJSON = JSON.stringify(data);
+    var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+    // this.downloadFile(''+uri, "xml_report")
+
+    // var json = require('fs').readFileSync(data, 'utf8');
+    var options = {compact: true, ignoreComment: true, spaces: 4};
+    let result = xml_js.json2xml(data, options)
+    console.log(result);
+    
+  }
+
+  downloadFile(url: string, fileName: string): void {
+    console.log('DD ',url);
+
+    //Conve
+    
+    const downloadLink = document.createElement('a');
+    downloadLink.download = fileName;
+    downloadLink.href = url;
+    downloadLink.click();
+ }
 }
