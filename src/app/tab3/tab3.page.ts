@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ExportService } from '../services/export.service';
+import { InfoManagerService } from '../services/info-manager.service';
 
 @Component({
   selector: 'app-tab3',
@@ -7,6 +9,14 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
+  constructor(
+    private generateReport: ExportService,
+    private info: InfoManagerService
+  ) {}
+
+  releaseReport(data,typeSelectedReport) {
+    typeSelectedReport = 'Excel Report'
+    this.generateReport.exportAsExcelFile(this.info.all_Data, typeSelectedReport)
+  }
 
 }
