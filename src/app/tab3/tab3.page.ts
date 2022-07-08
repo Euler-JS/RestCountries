@@ -14,9 +14,14 @@ export class Tab3Page {
     private info: InfoManagerService
   ) {}
 
-  releaseReport(data,typeSelectedReport) {
-    typeSelectedReport = 'Excel Report'
+  releaseReport() {
+    let typeSelectedReport = 'Excel Report'
     this.generateReport.exportAsExcelFile(this.info.all_Data, typeSelectedReport)
+  }
+
+  releaseCSVReport()
+  {
+    this.generateReport.exportAsCSV(this.info.all_Data)
   }
 
 }
