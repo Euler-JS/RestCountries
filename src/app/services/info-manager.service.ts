@@ -14,17 +14,17 @@ export class InfoManagerService {
   //nome, capital, região, sub-região, população, área, fuso horário, nome nativo e a bandeira
   async getAllCountries()
   {
-    this.all_Data = []
-    await this.http.get(this.base_url +'all?fields=name,capital,region,subregion,population,area,timezones,nativeName,flags')
-    .subscribe(
+    if(this.all_Data.length == 0)
+    {
+      await this.http.get(this.base_url +'all?fields=name,capital,region,subregion,population,area,timezones,nativeName,flags')
+      .subscribe(
       (res:[])=>{
         {
-          console.log(res);
-          
           this.all_Data = [...res];
         }
       }
-    ) 
+      ) 
+    }
   }
 
   async selectCountry(countryName)
@@ -38,6 +38,4 @@ export class InfoManagerService {
       }
     ) 
   }
-
-
 }

@@ -10,7 +10,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div lines="none" *ngFor="let infoData of info?.all_Data; let i=index">
+  <div lines="none" *ngFor="let infoData of all_DataCopy; let i=index">
     
     <ion-card class="card_1">
       <ion-item>
@@ -58,4 +58,9 @@
       </ion-item>
     </ion-card>
   </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
