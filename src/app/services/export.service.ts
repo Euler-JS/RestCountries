@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import csvDownload from 'json-to-csv-export';
 import * as xml_js from 'xml-js';
+import * as fs from 'fs'
 import { DomSanitizer } from '@angular/platform-browser';
+import * as JsonToXML from "js2xmlparser";
 
 
 @Injectable({
@@ -30,25 +32,14 @@ export class ExportService {
 
   exportAsXML(data)
   {
-    var theJSON = JSON.stringify(data);
-    var uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
-    // this.downloadFile(''+uri, "xml_report")
-
-    // var json = require('fs').readFileSync(data, 'utf8');
-    var options = {compact: true, ignoreComment: true, spaces: 4};
-    let result = xml_js.json2xml(data, options)
-    console.log(result);
-    
+    var element = document.createElement('a');
+     var blob = new Blob([JsonToXML.parse("country", data)], {
+       type: 'text/xml'
+     });
+     var url = URL.createObjectURL(blob);
+     element.href = url;
+     element.setAttribute('download', 'country_data.xml');
+     document.body.appendChild(element); 
+     element.click();
   }
-
-  downloadFile(url: string, fileName: string): void {
-    console.log('DD ',url);
-
-    //Conve
-    
-    const downloadLink = document.createElement('a');
-    downloadLink.download = fileName;
-    downloadLink.href = url;
-    downloadLink.click();
- }
 }

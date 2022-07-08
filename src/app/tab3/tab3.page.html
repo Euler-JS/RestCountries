@@ -1,14 +1,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Exportar Dados
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-<ion-button shape="round" (click)="releaseReport()">Round Button</ion-button>
-<ion-button shape="round" (click)="releaseCSVReport()">Round Button</ion-button>
-<ion-button shape="round" (click)="releaseXMLReport()">Round Button</ion-button>
+  <div class="center_btn" style="margin-top: 160px;">
+    <ion-button shape="round" (click)="releaseReport()">
+      <ion-icon name="cloud-download-outline"></ion-icon> Exportar para Excel
+    </ion-button>
+  </div>
+  <div class="center_btn">
+    <ion-button shape="round" (click)="releaseCSVReport()">
+      <ion-icon name="cloud-download-outline"></ion-icon> Exportar para CSV
+    </ion-button>
+  </div>
+  <div class="center_btn">
+    <ion-button shape="round" (click)="releaseXMLReport()">
+      <ion-icon name="cloud-download-outline"></ion-icon> Exportar para XML
+    </ion-button>
+  </div>
 </ion-content>
