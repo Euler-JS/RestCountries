@@ -7,6 +7,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,8 +16,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
       BrowserModule, 
       IonicModule.forRoot(),
       AppRoutingModule,
-      HttpClientModule,],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+      HttpClientModule,
+      ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    File,
+    SocialSharing],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
