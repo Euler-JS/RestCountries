@@ -14,16 +14,19 @@ export class Tab3Page {
     private info: InfoManagerService
   ) {}
 
+  //Funcao para gerar reporte de dados em Excel
   releaseReport() {
     let typeSelectedReport = 'Excel Report'
     this.generateReport.exportAsExcelFile(this.info.all_Data, typeSelectedReport)
   }
 
+  //Funcao para gerar reporte de dados em CSV
   releaseCSVReport()
   {
     this.generateReport.exportAsCSV(this.info.all_Data)
   }
 
+  //Funcao para gerar reporte de dados em XML
   releaseXMLReport()
   {
     this.generateReport.exportAsXML(this.info.all_Data)

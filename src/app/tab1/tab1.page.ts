@@ -12,11 +12,19 @@ export class Tab1Page {
   constructor(private info: InfoManagerService) {
   }
 
-  ionViewDidEnter()
+  ionViewWillEnter()
   {
-    this.all_DataCopy = this.info.all_Data.slice(0,10)
+    if(this.info.all_Data.length == 0)
+    {
+      this.info.getAllCountries()
+    }
+    else
+    {
+      this.all_DataCopy = this.info.all_Data.slice(0,10)
+    }
   }
 
+  //Funcao para ver mais informacoes
   view(itemId)
   {
     let item = <HTMLElement> document.getElementById("card_item_"+itemId);
@@ -29,6 +37,8 @@ export class Tab1Page {
       item.style.display = "none";
     }
   }
+
+  //Funcao para actualizar conteudo
   refresh(event) {
     this.info.getAllCountries()
     setTimeout(() => {
@@ -36,6 +46,7 @@ export class Tab1Page {
     }, 4000);
   }
 
+  //Funcao para carregar mais conteudo
   loadMore(event) {
     setTimeout(() => {
       this.all_DataCopy = this.info.all_Data.slice(0, (10 * this.page) + 9)

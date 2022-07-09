@@ -11,6 +11,8 @@ export class InfoManagerService {
   constructor(
     private http: HttpClient,
   ) { }
+
+  //Funcao para obter todos os paises
   //nome, capital, região, sub-região, população, área, fuso horário, nome nativo e a bandeira
   async getAllCountries()
   {
@@ -27,6 +29,7 @@ export class InfoManagerService {
     }
   }
 
+  //Funcao para pegar dados de um pais especifico
   async selectCountry(countryName)
   {
     await this.http.get(this.base_url +'name/'+countryName+ '?fields=name,capital,region,subregion,population,area,timezones,nativeName,flags')

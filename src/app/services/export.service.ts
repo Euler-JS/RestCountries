@@ -23,6 +23,7 @@ export class ExportService {
     return `${excelFileName}_export_${new Date().getTime()}.xlsx`;
   }
 
+  //Funcao para exportar excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {
     this.csvStringWork(json,'country.csv',',').then(res => {
       console.log('country.csv', res);
@@ -31,11 +32,13 @@ export class ExportService {
     );
   }
 
+  //Funcao para exportar csv
   async exportAsCSV(data) {
     var blob = await this.csvDownload(data, 'country.csv', ',')
     this.shareFile('country.csv', blob);
   }
 
+  //Funcao para exportar xml
   exportAsXML(data) {
     var blob = new Blob([JsonToXML.parse("country", data)], {
       type: 'text/xml'
@@ -44,6 +47,7 @@ export class ExportService {
     this.shareFile('country_data.xml', blob);
   }
 
+  //Funcao para baixar ficheiros exportados
   shareFile(fileName: string, blob) {
     this.file.writeFile(this.file.dataDirectory, fileName, blob, { replace: true }).
       then(res => {
@@ -52,8 +56,10 @@ export class ExportService {
       })
   }
 
+  //Funcao para pegar cabecalhos de CSV
   _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+  //Funcao para baixar CSV
   async csvDownload(data, name, delimiter) {
     var items = data;
     var filename = name || 'export.csv';
@@ -77,6 +83,7 @@ export class ExportService {
     return blob
   };
 
+  //Funcao para retornar dados de CSV para criar ArrayBuffer
   csvStringWork(data, name, delimiter)
   {
     var items = data;
@@ -96,6 +103,7 @@ export class ExportService {
     return this.convertCsvToExcelBuffer(csv);
   }
 
+  //Funcao para criar ArrayBUffer de CSV
   s2ab(s) {
     var buf = new ArrayBuffer(s.length);
     var view = new Uint8Array(buf);
@@ -103,6 +111,7 @@ export class ExportService {
     return buf;
   };
 
+  //Funcao para converter CSV para Excel em formato de Buffer
   convertCsvToExcelBuffer (csvString: string) {
     const arrayOfArrayCsv = csvString.split("\n").map((row: string) => {
       return row.split(",")
@@ -114,6 +123,7 @@ export class ExportService {
     return this.downloadExcelInBrowser(rawExcel);
   }
   
+  //Funcao para retornar blob para dowbload do Excel
   async downloadExcelInBrowser(xlsxData){
     const excelFileData = xlsxData;
     const decodedFileData = atob(excelFileData);
