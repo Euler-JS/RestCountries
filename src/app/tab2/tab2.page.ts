@@ -19,12 +19,14 @@ export class Tab2Page {
     this.auxiliar_list = [...this.info.all_Data];
   }
 
+  //Funcao para pegar texto introduzido na barra de pesquisa
   getItems(ev) {
     let query = ev.target.value.toLowerCase()
-    this.procurarProduto(query)
+    this.procurarCountry(query)
   }
 
-  procurarProduto(query) {
+  //Funcao para listar dados encontrado
+  procurarCountry(query) {
     
     requestAnimationFrame(() => {
       this.see = []
@@ -39,6 +41,7 @@ export class Tab2Page {
     });
   }
 
+  //Funcao para mostrar mais informacoes do country selecionado
   async selectCountry(countryName)
   {
     this.infoData = await this.info.selectCountry(countryName)
@@ -52,6 +55,8 @@ export class Tab2Page {
     
     searchBar.value = ""
   }
+
+  //Funcao para ver mais informacoes
   view()
   {
     let item = <HTMLElement> document.getElementById("card_item_search");
@@ -65,6 +70,7 @@ export class Tab2Page {
     }
   }
 
+  //Funcao para actualizar conteudo
   refresh(event) {
     this.info.getAllCountries()
     setTimeout(() => {
