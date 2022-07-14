@@ -7,17 +7,23 @@ import { DomSanitizer } from '@angular/platform-browser';
 import * as JsonToXML from "js2xmlparser";
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
+import { Device } from '@capacitor/device';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportService {
-
+  //Variavel para armazenar a plantforma
+  ptl
 
   constructor(
     private file: File,
-    private socialSharing: SocialSharing) { }
+    private socialSharing: SocialSharing) {
+    Device.getInfo().then(res => {
+      this.ptl = res.platform
+    })
+  }
 
   static toExportFileName(excelFileName: string): string {
     return `${excelFileName}_export_${new Date().getTime()}.xlsx`;
@@ -25,17 +31,25 @@ export class ExportService {
 
   //Funcao para exportar excel
   public exportAsExcelFile(json: any[], excelFileName: string): void {
-    this.csvStringWork(json,'country.csv',',').then(res => {
-      console.log('country.csv', res);
-      this.shareFile('country.xlsx', res);
+    this.csvStringWork(json, 'country.csv', ',').then(res => {
+      if (this.ptl == 'web') {
+        this.downloadAll('country.xlsx', res)
       }
-    );
+      else {
+        this.shareFile('country.xlsx', res);
+      }
+    });
   }
 
   //Funcao para exportar csv
   async exportAsCSV(data) {
     var blob = await this.csvDownload(data, 'country.csv', ',')
-    this.shareFile('country.csv', blob);
+    if (this.ptl == 'web') {
+      this.downloadAll('country.csv', blob)
+    }
+    else {
+      this.shareFile('country.csv', blob);
+    }
   }
 
   //Funcao para exportar xml
@@ -43,8 +57,12 @@ export class ExportService {
     var blob = new Blob([JsonToXML.parse("country", data)], {
       type: 'text/xml'
     });
-
-    this.shareFile('country_data.xml', blob);
+    if (this.ptl == 'web') {
+      this.downloadAll('country_data.xml', blob)
+    }
+    else {
+      this.shareFile('country_data.xml', blob);
+    }
   }
 
   //Funcao para baixar ficheiros exportados
@@ -84,8 +102,7 @@ export class ExportService {
   };
 
   //Funcao para retornar dados de CSV para criar ArrayBuffer
-  csvStringWork(data, name, delimiter)
-  {
+  csvStringWork(data, name, delimiter) {
     var items = data;
     var filename = name || 'export.csv';
     var d = delimiter || ',';
@@ -112,7 +129,7 @@ export class ExportService {
   };
 
   //Funcao para converter CSV para Excel em formato de Buffer
-  convertCsvToExcelBuffer (csvString: string) {
+  convertCsvToExcelBuffer(csvString: string) {
     const arrayOfArrayCsv = csvString.split("\n").map((row: string) => {
       return row.split(",")
     });
@@ -122,13 +139,25 @@ export class ExportService {
     const rawExcel = XLSX.write(wb, { type: 'base64' })
     return this.downloadExcelInBrowser(rawExcel);
   }
-  
+
   //Funcao para retornar blob para dowbload do Excel
-  async downloadExcelInBrowser(xlsxData){
+  async downloadExcelInBrowser(xlsxData) {
     const excelFileData = xlsxData;
     const decodedFileData = atob(excelFileData);
     const arrayBufferContent = this.s2ab(decodedFileData);
     const blob = new Blob([arrayBufferContent], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;' });
     return blob
+  }
+
+  //Download se estiver no navegador
+  downloadAll(filename, blob) {
+    var link = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
