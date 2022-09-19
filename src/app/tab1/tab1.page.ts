@@ -12,7 +12,7 @@ export class Tab1Page {
   constructor(private info: InfoManagerService) {
   }
 
-  ionViewWillEnter()
+  ionViewDidEnter()
   {
     if(this.info.all_Data.length == 0)
     {
